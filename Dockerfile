@@ -2,6 +2,7 @@ FROM ubuntu:xenial
 LABEL maintainer "Cheewai Lai <clai@csir.co.za>"
 
 ARG SUEXEC_VER=0.2
+ARG DOCKERIZE_VERSION=v0.5.0
 
 # For libspatialindex, rtree
 ARG SPATIALINDEX_VER=1.8.5
@@ -26,6 +27,7 @@ RUN sed 's/main$/main universe multiverse/' -i /etc/apt/sources.list \
  && cd "/tmp/su-exec-${SUEXEC_VER}" \
  && make \
  && cp -af su-exec /usr/bin/ \
+ && curl -k -fsSL https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz | tar xfz - -C /usr/bin \
  && easy_install pip \
  && pip install --upgrade pip \
  && apt-get install -y python-numpy python-tables liblapack3 liblapack-dev gfortran python-psycopg2 libgeos-${LIBGEOS_VER} libgeos-dev python-yaml python-gdal libgdal1i gdal-bin python-h5py hdf5-tools libhdf5-dev logrotate \
